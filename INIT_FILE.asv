@@ -6,15 +6,15 @@ MAXR= 30*pi/180; % radians, maximum azimuth angle (-MAXT < thetta < MAXT)
 RATER= 20*pi/180; % rad/s, maximum rate of change in azimuth angle
 AT_WAYPOINT = 1;
 DT_OBSERVE = 0;
-SWITCH_CONTROL_NOISE = 1;
-SWITCH_SENSOR_NOISE = 0;
+addnoise = 1;
+SWITCH_SENSOR_NOISE = 1;
 SWITCH_INFLATE_NOISE = 0;
 SWITCH_ASSOCIATION_KNOWN=0;
 SWITCH_USE_IEKF = 0;
 SWITCH_BATCH_UPDATE = 0;
 
-GATE_REJECT = 5;
-GATE_AUGMENT = 25;
+GATE_REJECT = 1;
+GATE_AUGMENT = 20;
 
 T=0;
 Ps=0;

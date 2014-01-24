@@ -43,7 +43,7 @@ while iwp ~= 0
     W=[T,Ps,Rs];  
     if iwp==0 && NUMBER_LOOPS > 1, iwp=1; NUMBER_LOOPS= NUMBER_LOOPS-1; end % perform loops: if final waypoint reached, go back to first
     xtrue= vehicle_model(xtrue, V,W, dt); 
-    [Vn,Wn] = add_control_noise(V,W,Q, SWITCH_CONTROL_NOISE);
+    [Vn,Wn] = add_control_noise(V,W,Q, addnoise);
     
     % EKF predict step    
     [x,P]= predict (x,P, Vn,Wn,Q,dt);
