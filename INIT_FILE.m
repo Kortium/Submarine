@@ -1,0 +1,35 @@
+MAXT= 30*pi/180; % radians, maximum azimuth angle (-MAXT < thetta < MAXT)
+RATET= 20*pi/180; % rad/s, maximum rate of change in azimuth angle
+MAXP= 30*pi/180; % radians, maximum elevation angle (-MAXP < psi < MAXP)
+RATEP= 20*pi/180; % rad/s, maximum rate of change in elevation angle
+MAXR= 30*pi/180; % radians, maximum azimuth angle (-MAXT < thetta < MAXT)
+RATER= 20*pi/180; % rad/s, maximum rate of change in azimuth angle
+AT_WAYPOINT = 1;
+DT_OBSERVE = 0;
+SWITCH_SENSOR_NOISE = 0;
+SWITCH_INFLATE_NOISE = 0;
+SWITCH_ASSOCIATION_KNOWN=0;
+SWITCH_USE_IEKF = 0;
+SWITCH_BATCH_UPDATE = 0;
+
+GATE_REJECT = 50;
+GATE_AUGMENT = 100;
+
+T=0;
+Ps=0;
+Rs=0;
+dtsum=0;
+Z=[];
+rmax =100;
+xtrue=[0,0,100,1,0,0,0];
+iwp=1;
+dt=0.2;
+V=1;
+fig=figure;
+Q=zeros(3,3);
+Q(1,1)=0.2^2;
+Q(2,2)=(3*pi/180)^2;
+Q(3,3)=(3*pi/180)^2;
+P= diag([eps,eps,eps,eps,eps,eps,eps,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6]);
+R= diag([0.0175,0.0175,2]);
+x= [0,0,100,1,0,0,0,0,0,0,0,0,0]';
