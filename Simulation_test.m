@@ -94,4 +94,5 @@ while iwp ~= 0
     %     [angle1,angle2,angle3] = quat2angle([P(4,4),P(5,5),P(6,6),P(7,7)]);
     %      set(h.sphere, 'xdata', (xsb.*(P(1,1)))+xt(1,end), 'ydata', (ysb.*(P(2,2))+xt(2,end)),'zdata', (zsb.*(P(3,3))+xt(3,end)));    
    drawnow
+   Z = x;
 end

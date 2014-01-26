@@ -19,3 +19,10 @@ landmark estimates.
 
 Tim Bailey and Juan Nieto
 2004.
+
+
+This simulator was modified by Khorev Timothey.
+It is 3 dimensional implementation of the same algorithm.
+
+Khorev Timothey 
+2014.
