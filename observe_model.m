@@ -41,7 +41,7 @@ zf = X(fpos+2);
 % yd2= dy/d2;
 % zd2= dz/d2;
 
-[angle1,angle2,~] = quat2angle(X(4:7)');
+% [angle1,angle2,~] = quat2angle(X(4:7)');
 % predict z
 % Z= [atan2(yf  -y,xf-x) - angle1;
 %       asin((zf  -z)/sqrt((xf  -x)^2+(yf  -y)^2+(zf  -z)^2)) - angle2;
@@ -50,10 +50,10 @@ zf = X(fpos+2);
 dx= xf  -x;
 dy= yf  -y;
 dz= zf  -z;
-Rho = sqrt(dx.^2 + dy.^2 + dz.^2); 
+Rho = sqrt(dx^2 + dy^2 + dz^2); 
 
 Z= [atan2(dy,dx);
-      atan2(dz,sqrt(dx.^2+dy.^2));
+      atan2(dz,sqrt(dx^2+dy^2));
       Rho];
 
 % calculate H

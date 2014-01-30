@@ -3,7 +3,7 @@ function xv= vehicle_model(xv, V,W,dt)
 % INPUTS:
 %   xv - vehicle pose [x;y;z;q]
 %   V  - velocity
-%   W - angular velocity vector [wz; wy]
+%   W - angular velocity vector [wz; wy; wx]
 %   dt - change in time
 %
 % OUTPUTS:

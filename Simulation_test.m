@@ -5,14 +5,15 @@ full_way = 0;
 ftag = 1:length(lm);
 i=1;
 plot3(wp(1,:),wp(2,:),wp(3,:), '-*g','MarkerSize',10)
+xlim([-150 150]), ylim([-150 150]), zlim([0 100]);
 xlabel('metres'), ylabel('metres'), zlabel('metres')
 hold on
 plot3(lm(1,:),lm(2,:),lm(3,:), 'r.','MarkerSize',10)
 xlabel('metres'), ylabel('metres'), zlabel('metres')
-xlim([-150 150]), ylim([-150 150]), zlim([0 100]);
 hold on
 h.xt = plot3(0,0,0,'b');
 h.pd = plot3(0,0,0,'r');
+h.pdnc = plot3(0,0,0,'m');
 h.vis = plot3(0,0,0,'*b','MarkerSize',10);
 % h.vis_m_pos = plot3(0,0,0,'*m','MarkerSize',10);
 [xsb,ysb,zsb] = sphere(20);
@@ -30,6 +31,7 @@ set(h.vision_cyl,'FaceColor','b','EdgeColor','b','EdgeAlpha',0.2);
 alpha(h.vision_cyl,0.2);
 xt=[0;0;100];
 pd=[0;0;100];
+pdnc=[0;0;100];
 da_table= zeros(1,size(lm,3));
 set(fig, 'name', 'EKF-SLAM Simulator')
 axis equal
@@ -47,6 +49,8 @@ while iwp ~= 0
     
     % EKF predict step    
     [x,P]= predict (x,P, Vn,Wn,Q,dt);
+    [xnc,Pnc]= predict (xnc,Pnc, Vn,Wn,Q,dt);
+    
     
 
     
@@ -54,7 +58,6 @@ while iwp ~= 0
     dtsum= dtsum + dt;
     if dtsum >= DT_OBSERVE
         dtsum=0;
-        z=[];
         [z,idf_v]= observations_submerged(xtrue, lm, ftag, rmax);  
         z= add_observation_noise(z,R, SWITCH_SENSOR_NOISE);
         
@@ -75,11 +78,14 @@ while iwp ~= 0
         end
         [x,P]= augment(x,P, zn,RE); 
     end
+%     disp(P);
     xt=[xt(1,:) xtrue(1); xt(2,:) xtrue(2); xt(3,:) xtrue(3)];
     pd=[pd(1,:) x(1); pd(2,:) x(2); pd(3,:) x(3)];
+    pdnc = [pdnc(1,:) xnc(1); pdnc(2,:) xnc(2); pdnc(3,:) xnc(3)];
     full_way = full_way + V*dt;
     set(h.xt, 'xdata', xt(1,:), 'ydata', xt(2,:), 'zdata', xt(3,:));   
     set(h.pd, 'xdata', pd(1,:), 'ydata', pd(2,:), 'zdata', pd(3,:)); 
+    set(h.pdnc, 'xdata', pdnc(1,:), 'ydata', pdnc(2,:), 'zdata', pdnc(3,:)); 
    set(h.vis, 'xdata', x(14:3:end), 'ydata', x(15:3:end), 'zdata', x(16:3:end));
 %     true_pos = Position_model(z,xt);
 %     set(h.vis_m_pos, 'xdata', true_pos(1,:), 'ydata', true_pos(2,:), 'zdata', true_pos(3,:));
