@@ -53,4 +53,5 @@ for i=1:lenz
         z(3,i)-zp(3)];
     
     [x,P]= KF_cholesky_update(x,P,v,RR,H);
+    x(4:7) = quatnormalize(x(4:7)');
 end        

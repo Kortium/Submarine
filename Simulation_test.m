@@ -79,6 +79,10 @@ while iwp ~= 0
         [x,P]= augment(x,P, zn,RE); 
     end
 %     disp(P);
+    dx= pd(3,end) - x(3);
+    if abs(dx) >5
+        dx=0;
+    end
     xt=[xt(1,:) xtrue(1); xt(2,:) xtrue(2); xt(3,:) xtrue(3)];
     pd=[pd(1,:) x(1); pd(2,:) x(2); pd(3,:) x(3)];
     pdnc = [pdnc(1,:) xnc(1); pdnc(2,:) xnc(2); pdnc(3,:) xnc(3)];
