@@ -74,15 +74,11 @@ while iwp ~= 0
          if SWITCH_USE_IEKF == 1
             [x,P]= update_iekf(x,P,zf,RE,idf, 5);
         else
-            [x,P]= update(x,P,zf,RE,idf, SWITCH_BATCH_UPDATE); 
+            [x,P]= update(x,P,zf,RE,idf, SWITCH_BATCH_UPDATE,xt(3,end)); 
         end
         [x,P]= augment(x,P, zn,RE); 
     end
 %     disp(P);
-    dx= pd(3,end) - x(3);
-    if abs(dx) >5
-        dx=0;
-    end
     xt=[xt(1,:) xtrue(1); xt(2,:) xtrue(2); xt(3,:) xtrue(3)];
     pd=[pd(1,:) x(1); pd(2,:) x(2); pd(3,:) x(3)];
     pdnc = [pdnc(1,:) xnc(1); pdnc(2,:) xnc(2); pdnc(3,:) xnc(3)];

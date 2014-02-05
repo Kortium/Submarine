@@ -32,10 +32,11 @@ P = angle(2);
 
 % incremental tests for bounding semi-circle
 ii= find(abs(dx) < rmax & abs(dy) < rmax & abs(dz) < rmax ... % bounding cube
-        & abs(T- atan2(dy,dx)) < pi/3 ...     % bounding azimuth             
+        & abs(T- atan2(dy,dx)) < pi/3 ...     % bounding azimuth    
+        & abs(P - atan2(dz,sqrt(dx.^2+dy.^2))-pi/6) < pi/3 ...       %bounding elevation        
         & (dx.^2 + dy.^2 + dz.^2) < rmax^2);           % bounding sphere
   
-%& abs(P - atan2(dz,sqrt(dx.^2+dy.^2))-pi/6) < pi/3 ...       %bounding elevation
+
     
 % Note: the bounding box test is unnecessary but illustrates a possible speedup technique
 % as it quickly eliminates distant points. Ordering the landmark set would make this operation

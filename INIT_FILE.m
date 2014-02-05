@@ -14,8 +14,8 @@ SWITCH_ASSOCIATION_KNOWN=0;
 SWITCH_USE_IEKF = 0;
 SWITCH_BATCH_UPDATE = 0;
 
-GATE_REJECT = 50;
-GATE_AUGMENT = 1024;
+GATE_REJECT = 10;
+GATE_AUGMENT = 50;
 
 T=0;
 Ps=0;
@@ -33,7 +33,7 @@ Q(2,2)=(3*pi/180)^2;
 Q(3,3)=(3*pi/180)^2;
 P= diag([eps,eps,eps,eps,eps,eps,eps,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6]);
 % R = diag([eps,eps,eps]);
-R= diag([0.1*pi/180^2,0.1*pi/180^2,2^2]);
+R= diag([3*pi/180^2,3*pi/180^2,2^2]);
 x= [0,0,100,1,0,0,0,0,0,0,0,0,0]';
 xnc= [0,0,100,1,0,0,0,0,0,0,0,0,0]';
 Pnc= diag([eps,eps,eps,eps,eps,eps,eps,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6]);

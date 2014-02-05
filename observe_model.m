@@ -46,7 +46,7 @@ zf = X(fpos+2);
 % yd2= dy/d2;
 % zd2= dz/d2;
 
-[a1,a2,~] = quat2angle(X(4:7)');
+[a1,a2,a3] = quat2angle(X(4:7)');
 % predict z
 
 dx= xf  -x;

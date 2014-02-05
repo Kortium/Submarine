@@ -1,4 +1,4 @@
-function [x,P]= update(x,P,z,R,idf, batch)
+function [x,P]= update(x,P,z,R,idf, batch,pd)
 % function [x,P]= update(x,P,z,R,idf, batch)
 %
 % Inputs:
@@ -11,15 +11,15 @@ function [x,P]= update(x,P,z,R,idf, batch)
 %   x, P - updated state and covariance
 
 if batch == 1
-    [x,P]= batch_update(x,P,z,R,idf);
+    [x,P]= batch_update(x,P,z,R,idf,pd);
 else
-    [x,P]= single_update(x,P,z,R,idf);
+    [x,P]= single_update(x,P,z,R,idf,pd);
 end
 
 %
 %
 
-function [x,P]= batch_update(x,P,z,R,idf)
+function [x,P]= batch_update(x,P,z,R,idf,pd)
 
 lenz= size(z,2);
 lenx= length(x);
@@ -42,7 +42,7 @@ end
 %
 %
 
-function [x,P]= single_update(x,P,z,RR,idf)
+function [x,P]= single_update(x,P,z,RR,idf,pd)
 
 lenz= size(z,2);
 for i=1:lenz
@@ -53,5 +53,9 @@ for i=1:lenz
         z(3,i)-zp(3)];
     
     [x,P]= KF_cholesky_update(x,P,v,RR,H);
+    dx= pd - x(3);
+    if abs(dx) >1
+        dx=0;
+    end
     x(4:7) = quatnormalize(x(4:7)');
 end        
