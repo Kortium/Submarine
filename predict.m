@@ -61,11 +61,11 @@ end
 % predict state
 
 dcm = quat2dcm(x(4:7)');
-x(1:3) = x(1:3)+([v,0,0]*dcm)'.*dt;
+x(1:3) = x(1:3)+(dcm*[v,0,0]').*dt;
 
 x(4:7)= mrotate_eml(x(4:7)', [Wn(3),Wn(2),Wn(1)],dt);
 
-x(8:10) = [v,0,0]*dcm;
+x(8:10) = dcm*[v,0,0]';
 
 x(11:13) = [Wn(3),Wn(2),Wn(1)];
 

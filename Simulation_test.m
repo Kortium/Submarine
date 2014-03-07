@@ -17,8 +17,7 @@ h.pdnc = plot3(0,0,0,'m');
 h.vis = plot3(0,0,0,'*b','MarkerSize',10);
 % h.vis_m_pos = plot3(0,0,0,'*m','MarkerSize',10);
 [xsb,ysb,zsb] = sphere(20);
-h.sphere = mesh(xsb.*0,ysb.*0,zsb.*0);
-alpha(h.sphere,0.2);
+sphere_mass=[];
 t = 0:0.2:1;
 [Xc,Yc,Zc]=cylinder(t);
 q = angle2quat(0, -pi/2-0.6109, 0);
@@ -41,43 +40,43 @@ hold on
 while iwp ~= 0
     i=i+1;    
     % compute true data
-    [T,Ps,Rs,iwp]= compute_rotation(xtrue, wp, iwp, AT_WAYPOINT, T, RATET, MAXT, Ps, RATEP, MAXP,Rs, RATER, MAXR, dt);
-    W=[T,Ps,Rs];  
+    [wPsi,wTeta,wRoll,iwp]= compute_rotation(xtrue, wp, iwp, AT_WAYPOINT, wPsi, RATEP, MAXP, wTeta, RATET, MAXT,wRoll, RATER, MAXR, dt);
+    W=[wRoll,wTeta,wPsi];  
     if iwp==0 && NUMBER_LOOPS > 1, iwp=1; NUMBER_LOOPS= NUMBER_LOOPS-1; end % perform loops: if final waypoint reached, go back to first
-    xtrue= vehicle_model(xtrue, V,W, dt); 
-    [Vn,Wn] = add_control_noise(V,W,Q, SWITCH_CONTROL_NOISE);
+    xtrue = vehicle_model(xtrue, V,W, dt); 
+%     [Vn,Wn] = add_control_noise(V,W,Q, SWITCH_CONTROL_NOISE);
     
     % EKF predict step    
-    [x,P]= predict (x,P, Vn,Wn,Q,dt);
-    [xnc,Pnc]= predict (xnc,Pnc, Vn,Wn,Q,dt);
+%     [x,P]= predict (x,P, Vn,Wn,Q,dt);
+%     [xnc,Pnc]= predict (xnc,Pnc, Vn,Wn,Q,dt);
     
     
 
     
      % EKF update step
     dtsum= dtsum + dt;
-    if dtsum >= DT_OBSERVE
-        dtsum=0;
-        [z,idf_v]= observations_submerged(xtrue, lm, ftag, rmax);  
-        z= add_observation_noise(z,R, SWITCH_SENSOR_NOISE);
-        
-        if size(z,2)>1
-            qq=0;
-        end
-        
-        if SWITCH_ASSOCIATION_KNOWN == 1
-            [zf,idf,zn, da_table]= data_associate_known(x,z,idf_v, da_table);
-        else
-            [zf,idf, zn]= data_associate(x,P,z,RE, GATE_REJECT, GATE_AUGMENT);
-        end
-        
-         if SWITCH_USE_IEKF == 1
-            [x,P]= update_iekf(x,P,zf,RE,idf, 5);
-        else
-            [x,P]= update(x,P,zf,RE,idf, SWITCH_BATCH_UPDATE,xt(3,end)); 
-        end
-        [x,P]= augment(x,P, zn,RE); 
-    end
+%     if dtsum >= DT_OBSERVE
+%         dtsum=0;
+%         [z,idf_v]= observations_submerged(xtrue, lm, ftag, rmax);  
+%         z= add_observation_noise(z,R, SWITCH_SENSOR_NOISE);
+%         
+%         if size(z,2)>1
+%             qq=0;
+%         end
+%         
+%         if SWITCH_ASSOCIATION_KNOWN == 1
+%             [zf,idf,zn, da_table]= data_associate_known(x,z,idf_v, da_table);
+%         else
+%             [zf,idf, zn]= data_associate(x,P,z,RE, GATE_REJECT, GATE_AUGMENT);
+%         end
+%         
+%          if SWITCH_USE_IEKF == 1
+%             [x,P]= update_iekf(x,P,zf,RE,idf, 5);
+%         else
+%             [x,P]= update(x,P,zf,RE,idf, SWITCH_BATCH_UPDATE,xt(3,end)); 
+%         end
+%         [x,P]= augment(x,P, zn,RE); 
+%     end
 %     disp(P);
     xt=[xt(1,:) xtrue(1); xt(2,:) xtrue(2); xt(3,:) xtrue(3)];
     pd=[pd(1,:) x(1); pd(2,:) x(2); pd(3,:) x(3)];
@@ -86,19 +85,42 @@ while iwp ~= 0
     set(h.xt, 'xdata', xt(1,:), 'ydata', xt(2,:), 'zdata', xt(3,:));   
     set(h.pd, 'xdata', pd(1,:), 'ydata', pd(2,:), 'zdata', pd(3,:)); 
     set(h.pdnc, 'xdata', pdnc(1,:), 'ydata', pdnc(2,:), 'zdata', pdnc(3,:)); 
-   set(h.vis, 'xdata', x(14:3:end), 'ydata', x(15:3:end), 'zdata', x(16:3:end));
-%     true_pos = Position_model(z,xt);
-%     set(h.vis_m_pos, 'xdata', true_pos(1,:), 'ydata', true_pos(2,:), 'zdata', true_pos(3,:));
-%     set(h.vis, 'xdata', lm(1,idf_v), 'ydata', lm(2,idf_v), 'zdata', lm(3,idf_v));
-    [angle1,angle2,angle3] = quat2angle(xtrue(4:7));
-    q = angle2quat(-angle1,(-angle2)*cos(-angle1)-pi/6,angle3);
-    XYZ = quatrotate(quatinv(xtrue(4:7)),[Xc(:),Yc(:),(Zc(:))]);
+%     set(h.vis, 'xdata', x(14:3:end), 'ydata', x(15:3:end), 'zdata', x(16:3:end));
+%     sphere_mass = add_sphere (x,P,sphere_mass,xsb,ysb,zsb);
+%     sphere_refresh(x,P,sphere_mass,xsb,ysb,zsb);   
+    XYZ = quatrotate(xtrue(4:7),[Xc(:),Yc(:),(Zc(:))]);
     Xcyl = reshape(XYZ(:,1),6,21);
     Ycyl = reshape(XYZ(:,2),6,21);
     Zcyl = reshape(XYZ(:,3),6,21);
-    set(h.vision_cyl,'xdata', Xcyl+xt(1,end), 'ydata', Ycyl+xt(2,end), 'zdata', Zcyl+xt(3,end));
-    %     [angle1,angle2,angle3] = quat2angle([P(4,4),P(5,5),P(6,6),P(7,7)]);
-    %      set(h.sphere, 'xdata', (xsb.*(P(1,1)))+xt(1,end), 'ydata', (ysb.*(P(2,2))+xt(2,end)),'zdata', (zsb.*(P(3,3))+xt(3,end)));    
-   drawnow
-   Z = x;
+    set(h.vision_cyl,'xdata', Xcyl+xt(1,end), 'ydata', Ycyl+xt(2,end), 'zdata', Zcyl+xt(3,end));  
+    drawnow
+    Z = x;
 end
+
+function sphere_mass = add_sphere (x,P,sphere_mass,base_sphere_x,base_sphere_y,base_sphere_z)
+    k = ((length(x)-13)/3) - length(sphere_mass);
+    if k>0
+        for j = ((length(x)-13)/3-k+1):((length(x)-13)/3)
+            X = x(14+3*(j-1));
+            Y = x(15+3*(j-1));
+            Z = x(16+3*(j-1));
+            px = P(14+3*(j-1),14+3*(j-1));
+            py = P(15+3*(j-1),15+3*(j-1));
+            pz = P(16+3*(j-1),16+3*(j-1));
+            sphere_mass(length(sphere_mass)+1) = mesh(base_sphere_x.*px+X,base_sphere_y.*py+Y,base_sphere_z.*pz+Z);
+            alpha(sphere_mass(end),0.2);
+            drawnow            
+        end
+    end
+        
+function sphere_refresh(x,P,sphere_mass,base_sphere_x,base_sphere_y,base_sphere_z)
+    for j=1:length(sphere_mass)
+        X = x(14+3*(j-1));
+        Y = x(15+3*(j-1));
+        Z = x(16+3*(j-1));
+        px = P(14+3*(j-1),14+3*(j-1));
+        py = P(15+3*(j-1),15+3*(j-1));
+        pz = P(16+3*(j-1),16+3*(j-1));
+        set(sphere_mass(j),'xdata',base_sphere_x*px+X,'ydata',base_sphere_y*py+Y,'zdata',base_sphere_z*pz+Z);
+        drawnow
+    end        
