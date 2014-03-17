@@ -23,7 +23,7 @@ function [wPsi,wTeta,wRoll,iwp]= compute_rotation(x, wp, iwp, minD, wPsi, ratePs
 
 % determine if current waypoint reached
 cwp= wp(:,iwp);
-d2= (cwp(1)-x(1))^2 + (cwp(2)-x(2))^2 + (cwp(3)-x(3))^2;
+d2= (cwp(1)-x(1))^2 + (cwp(2)-x(2))^2;
 if d2 < minD^2
     iwp= iwp+1; % switch to next
     if iwp > size(wp,2) % reached final waypoint, flag and return
@@ -35,29 +35,14 @@ end
 
 % compute change in T to point towards current waypoint
 [angle(1), angle(2), angle(3)] = quat2angle(x(4:7));
-deltaPsi = pi_to_pi(atan2(cwp(2)-x(2), cwp(1)-x(1)) - angle(1) - wPsi);
 
-DCM = angle2dcm_cc([-angle(1),0,0]);
 dx(1) = cwp(1)-x(1);
 dx(2) = cwp(2)-x(2);
 dx(3) = cwp(3)-x(3);
 
-dx = DCM*dx(1:3)';
-
-persistent k;
-if isempty(k)
-    k=50;
-end
-
-if k==0
-disp(dx)
-k=50;
-end
-k=k-1;
-
-deltaTeta = pi_to_pi(atan2(dx(3),sqrt((dx(1))^2+(dx(2))^2)) - angle(2) - wTeta);
-deltaRoll = 0;%pi_to_pi(0-angle(3)-wRoll);
-
+deltaPsi = pi_to_pi(atan2(dx(2), dx(1)) - angle(1) - wPsi);
+deltaTeta = pi_to_pi(-atan2(dx(3),sqrt((dx(1))^2+(dx(2))^2)) - angle(2) - wTeta);
+deltaRoll = pi_to_pi(-angle(3)-wRoll);
 
 
 % limit rate

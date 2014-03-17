@@ -58,6 +58,6 @@ z=zeros(3,size(lm,2));
 for i =1:size(lm,2)
 cfc =  DCM*[dx(i);dy(i);dz(i)];
 z(:,i)= [pi_to_pi(atan2(cfc(2),cfc(1)));
-pi_to_pi(atan2(cfc(3),sqrt(cfc(1)^2+cfc(2)^2)));
-Rho(i)];
+            pi_to_pi(atan2(cfc(3),sqrt(cfc(1)^2+cfc(2)^2)));
+            Rho(i)];
 end
