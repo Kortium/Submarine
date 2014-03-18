@@ -70,10 +70,6 @@ while iwp ~= 0
         [z,idf_v]= observations_submerged(xtrue, lm, ftag, rmax);  
         z= add_observation_noise(z,R, SWITCH_SENSOR_NOISE);
         
-        if size(z,2)>1
-            qq=0;
-        end
-        
         if SWITCH_ASSOCIATION_KNOWN == 1
             [zf,idf,zn, da_table]= data_associate_known(x,z,idf_v, da_table);
         else
@@ -96,11 +92,11 @@ while iwp ~= 0
     set(h.pd, 'xdata', pd(1,:), 'ydata', pd(2,:), 'zdata', pd(3,:)); 
     set(h.pdnc, 'xdata', pdnc(1,:), 'ydata', pdnc(2,:), 'zdata', pdnc(3,:)); 
 %     if size(idf_v)>0
-%         set(h.vis, 'xdata', lm(1,idf(:)), 'ydata', lm(2,idf(:)), 'zdata', lm(3,idf(:)));    
+%         set(h.vis, 'xdata', lm(1,idf_v(:)), 'ydata', lm(2,idf_v(:)), 'zdata', lm(3,idf_v(:)));    
 %     end        
     set(h.vis, 'xdata', x(14:3:end), 'ydata', x(15:3:end), 'zdata', x(16:3:end));
-%     sphere_mass = add_sphere (x,P,sphere_mass,xsb,ysb,zsb);
-%     sphere_refresh(x,P,sphere_mass,xsb,ysb,zsb);   
+    sphere_mass = add_sphere (x,P,sphere_mass,xsb,ysb,zsb);
+    sphere_refresh(x,P,sphere_mass,xsb,ysb,zsb);   
     XYZ = quatrotate([-xtrue(4),xtrue(5),xtrue(6),xtrue(7)],[Xc(:),Yc(:),(Zc(:))]);
     Xcyl = reshape(XYZ(:,1),6,21);
     Ycyl = reshape(XYZ(:,2),6,21);

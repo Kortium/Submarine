@@ -35,17 +35,6 @@ xf = X(fpos);
 yf = X(fpos+1);
 zf = X(fpos+2);
 
-% qsum = x(4)^2+x(5)^2+x(6)^2+x(7)^2;
-% qmod = sqrt(qsum);
-% d2= dx^2 + dy^2 + dz^2;
-% d= sqrt(d2);
-% xd= dx/d;
-% yd= dy/d;
-% zd= dz/d;
-% xd2= dx/d2;
-% yd2= dy/d2;
-% zd2= dz/d2;
-
 % predict z
 
 dx= x-xf;
@@ -53,19 +42,18 @@ dy= y-yf;
 dz= z-zf;
 Rho = sqrt(dx^2 + dy^2 + dz^2); 
 
-DCM = quat2dcm([X(4) -X(5) -X(6) -X(7)]);
-Z=zeros(3,length(xf));
-for i =1:length(xf)
-cfc = DCM*[dx(i);dy(i);dz(i)];
-Z(:,i)= [pi_to_pi(atan2(cfc(2),cfc(1)));
+DCM = quat2dcm_cc([X(4) X(5) X(6) X(7)]);
+
+cfc = DCM*[dx;dy;dz];
+Z = [pi_to_pi(atan2(cfc(2),cfc(1)));
             pi_to_pi(atan2(cfc(3),sqrt(cfc(1)^2+cfc(2)^2)));
-            Rho(i)];
-end
+            Rho];
+        
 % calculate H
-
-H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
-
-H(:,fpos:fpos+2) = dHdf(q1,q2,q3,q4,x,xf,y,yf,z,zf);
+H(:,1:13) = zeros(3,13);
+% H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
+H(:,fpos:fpos+2) = zeros(3,3);
+% H(:,fpos:fpos+2) = dHdf(q1,q2,q3,q4,x,xf,y,yf,z,zf);
 
                                                    
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

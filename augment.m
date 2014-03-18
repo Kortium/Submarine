@@ -33,7 +33,7 @@ q2 = x(5);
 q3 = x(6);
 q4 = x(7);
 % 
-DCM = quat2dcm(x(4:7)');
+DCM = quat2dcm_cc([-x(4) x(5) x(6) x(7)]);
 % augment x
 
 cfc = DCM * [rho*cos(teta)*cos(phi);  rho*cos(teta)*sin(phi);  rho*sin(teta)];

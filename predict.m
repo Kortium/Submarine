@@ -21,7 +21,7 @@ Gv = dFdX(dt,x(4),x(5),x(6),x(7),Wn(1),Wn(2),Wn(3));
 Gu = dFdU(dt,x(4),x(5),x(6),x(7),Wn(1),Wn(2),Wn(3));
 
 
-% % predict covariance
+% predict covariance
 P(1:13,1:13)= Gv*P(1:13,1:13)*Gv' + Gu*Q*Gu';
 if size(P,1)>13
     P(1:13,14:end)= Gv*P(1:13,14:end);

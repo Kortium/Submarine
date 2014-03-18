@@ -4,7 +4,7 @@ q2 =q(2);
 q3 =q(3);
 q4 =q(4);
 
-syms DCM
+%syms DCM
 
 DCM(1,1) = 1 - 2*(q3^2 + q4^2);
 DCM(1,2) = 2*(q2*q3 - q4*q1);
