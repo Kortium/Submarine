@@ -45,7 +45,6 @@ function [nis, nd]= compute_association(x,P,z,R,idf)
 % return normalised innovation squared (ie, Mahalanobis distance) and normalised distance
 [zp,H]= observe_model(x, idf);
 v= z-zp; 
-disp(v);
 v(2)= pi_to_pi(v(2));
 v(1)= pi_to_pi(v(1));
 S= H*P*H' + R;

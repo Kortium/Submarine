@@ -50,10 +50,10 @@ Z = [pi_to_pi(atan2(cfc(2),cfc(1)));
             Rho];
         
 % calculate H
-H(:,1:13) = zeros(3,13);
-% H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
-H(:,fpos:fpos+2) = zeros(3,3);
-% H(:,fpos:fpos+2) = dHdf(q1,q2,q3,q4,x,xf,y,yf,z,zf);
+% H(:,1:13) = zeros(3,13);
+H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
+% H(:,fpos:fpos+2) = zeros(3,3);
+H(:,fpos:fpos+2) = dHdf(q1,q2,q3,q4,x,xf,y,yf,z,zf);
 
                                                    
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

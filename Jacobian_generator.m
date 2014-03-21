@@ -56,9 +56,8 @@ Cbn(3,1) = 2*(q2*q4 - q3*q1);
 Cbn(3,2) = 2*(q3*q4 + q2*q1);
 Cbn(3,3) = 1 - 2*(q2^2 + q3^2);
 
-q1_inv = -q1;
-
 Cbn_inv = sym(zeros(3));
+q1_inv = -q1;
 
 Cbn_inv(1,1) = 1 - 2*(q3^2 + q4^2);
 Cbn_inv(1,2) = 2*(q2*q3 - q4*q1_inv);
@@ -81,11 +80,11 @@ matlabFunction(dGdZ, 'file', 'dGdZ.m');
 
 
 %% Compass Measurement Prediction
-xd = xf-x;
-yd = yf-y;
-zd = zf-z;
+xd = x-xf;
+yd = y-yf;
+zd = z-zf;
 
-fc = Cbn_inv*[xd;yd;zd];  
+fc = Cbn*[xd;yd;zd];  
 
 H = [atan(fc(2),fc(1));atan(fc(3),sqrt(fc(1)^2 +fc(2)^2)); sqrt(fc(1)^2 +fc(2)^2 +fc(3)^2)];
 

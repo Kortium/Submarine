@@ -1,11 +1,11 @@
-function Z = Simulation_test(NUMBER_LOOPS,wp,lm)
+function [pos_error,quat_error] = Simulation_test(NUMBER_LOOPS,wp,lm)
 INIT_FILE;
 QE= Q; RE= R; if SWITCH_INFLATE_NOISE, QE= 2*Q; RE= 8*R; end % inflate estimated noises (ie, add stabilising noise)
 full_way = 0;
 ftag = 1:length(lm);
-i=1;
-idf_v=[];
-idf=[];
+quat_error = [];
+pos_error = [];
+i=0;
 plot3(wp(1,:),wp(2,:),wp(3,:), '-*g','MarkerSize',10)
 xlim([-150 150]), ylim([-150 150]), zlim([0 100]);
 xlabel('metres'), ylabel('metres'), zlabel('metres')
@@ -108,6 +108,8 @@ while iwp ~= 0
     Zcyl = reshape(XYZ(:,3),6,21);
     set(h.veh_cyl,'xdata', Xcyl+xt(1,end), 'ydata', Ycyl+xt(2,end), 'zdata', Zcyl+xt(3,end));
     drawnow
+    quat_error(:,i) = [xtrue(4)-x(4),xtrue(5)-x(5),xtrue(6)-x(6),xtrue(7)-x(7)];
+    pos_error(:,i) = [xtrue(1)-x(1),xtrue(2)-x(2),xtrue(3)-x(3)];
     Z = x;
 end
 
