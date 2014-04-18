@@ -13,7 +13,9 @@ PHt= P*H';
 S= H*PHt + R;
 
 S= (S+S')*0.5; % make symmetric
-SChol= chol(S);
+
+SChol = chol(S);
+
 
 SCholInv= inv(SChol); % triangular matrix
 W1= PHt * SCholInv;

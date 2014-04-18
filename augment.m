@@ -26,38 +26,42 @@ end
 function [x,P]= add_one_z(x,P,z,R)
 
 len= length(x);
-teta= z(1); ksi = z(2); rho= z(3);
+phi= z(1); teta = z(2); rho= z(3);
 
-% q1 = x(4);
-% q2 = x(5);
-% q3 = x(6);
-% q4 = x(7);
+q1 = x(4);
+q2 = x(5);
+q3 = x(6);
+q4 = x(7);
 % 
-% [angle(1), angle(2), ~] = quat2angle(x(4:7)');
+DCM = quat2dcm_cc([-x(4) x(5) x(6) x(7)]);
 % augment x
 
-% x= [x;
-%     x(1) + rho*cos(ksi)*cos(teta);
-%     x(2) + rho*cos(ksi)*sin(teta);
-%     x(3) + rho*sin(ksi)];
+% cfc = [rho*cos(teta)*cos(phi);  rho*cos(teta)*sin(phi);  rho*sin(teta)];
+cfc = DCM * [rho*cos(teta)*cos(phi);  rho*cos(teta)*sin(phi);  rho*sin(teta)];
+
 x= [x;
-    x(1) + rho*cos(ksi)*cos(teta);
-    x(2) + rho*cos(ksi)*sin(teta);
-    x(3) + rho*sin(ksi)];
+    x(1) - cfc(1);
+    x(2) - cfc(2);
+    x(3) - cfc(3)];
 
 % jacobians
 
-Gv = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-           0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-           0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+% Gv = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+%            0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+%            0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+
+% Gv = dGdX;
+Gv = dGdX(phi,rho,teta,q1,q2,q3,q4);
+
+
 
 
 % Gv= [1 0 -r*s;
 %      0 1  r*c];
  
-Gz = [ -rho*cos(ksi)*sin(teta), -rho*cos(teta)*sin(ksi), cos(ksi)*cos(teta);
-            rho*cos(ksi)*cos(teta), -rho*sin(ksi)*sin(teta), cos(ksi)*sin(teta);
-                            0,            rho*cos(ksi),           sin(ksi)];
+% Gz = dGdZ(phi,rho,teta);
+Gz = dGdZ(phi,rho,teta,q1,q2,q3,q4);
  
 %Gz= [c -r*s;
 %    s  r*c];

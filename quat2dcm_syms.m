@@ -1,4 +1,4 @@
-function dcm = quat2dcm_syms( q )%#eml
+function dcm = quat2dcm_syms( q )
 %  QUAT2DCM Convert quaternion to direction cosine matrix.
 
 qin = quatnormalize_eml( q );
