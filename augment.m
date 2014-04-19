@@ -36,10 +36,7 @@ q4 = x(7);
 DCM = quat2dcm_cc([-x(4) x(5) x(6) x(7)]);
 % augment x
 
-<<<<<<< HEAD
 % cfc = [rho*cos(teta)*cos(phi);  rho*cos(teta)*sin(phi);  rho*sin(teta)];
-=======
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 cfc = DCM * [rho*cos(teta)*cos(phi);  rho*cos(teta)*sin(phi);  rho*sin(teta)];
 
 x= [x;
@@ -54,10 +51,7 @@ x= [x;
 %            0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 
-<<<<<<< HEAD
 % Gv = dGdX;
-=======
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 Gv = dGdX(phi,rho,teta,q1,q2,q3,q4);
 
 
@@ -66,10 +60,7 @@ Gv = dGdX(phi,rho,teta,q1,q2,q3,q4);
 % Gv= [1 0 -r*s;
 %      0 1  r*c];
  
-<<<<<<< HEAD
 % Gz = dGdZ(phi,rho,teta);
-=======
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 Gz = dGdZ(phi,rho,teta,q1,q2,q3,q4);
  
 %Gz= [c -r*s;

@@ -70,12 +70,8 @@ Cbn_inv(3,2) = 2*(q3*q4 + q2*q1_inv);
 Cbn_inv(3,3) = 1 - 2*(q2^2 + q3^2);
 
 %% Compass Augment
-<<<<<<< HEAD
 % G = [Rho*cos(Theta)*cos(Phi);Rho*cos(Theta)*sin(Phi);Rho*sin(Theta)] + [x;y;z];
 G =  [x;y;z] - Cbn_inv* [Rho*cos(Theta)*cos(Phi);Rho*cos(Theta)*sin(Phi);Rho*sin(Theta)];
-=======
-G = Cbn* [Rho*cos(Theta)*cos(Phi);Rho*cos(Theta)*sin(Phi);Rho*sin(Theta)] + [x;y;z];
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 
 dGdX = jacobian(G,[x y z q1 q2 q3 q4 v1 v2 v3 w1 w2 w3]);
 dGdZ = jacobian(G,[Phi Theta Rho]);
@@ -89,10 +85,7 @@ xd = x-xf;
 yd = y-yf;
 zd = z-zf;
 
-<<<<<<< HEAD
 % fc = [xd;yd;zd];  
-=======
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 fc = Cbn*[xd;yd;zd];  
 
 H = [atan(fc(2),fc(1));atan(fc(3),sqrt(fc(1)^2 +fc(2)^2)); sqrt(fc(1)^2 +fc(2)^2 +fc(3)^2)];

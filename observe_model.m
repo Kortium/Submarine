@@ -45,24 +45,15 @@ Rho = sqrt(dx^2 + dy^2 + dz^2);
 DCM = quat2dcm_cc([X(4) X(5) X(6) X(7)]);
 
 cfc = DCM*[dx;dy;dz];
-<<<<<<< HEAD
 % cfc = [dx;dy;dz];
-=======
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 Z = [pi_to_pi(atan2(cfc(2),cfc(1)));
             pi_to_pi(atan2(cfc(3),sqrt(cfc(1)^2+cfc(2)^2)));
             Rho];
         
 % calculate H
-<<<<<<< HEAD
 % H(:,1:13) = dHdX(x,xf,y,yf,z,zf);
 H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
 % H(:,fpos:fpos+2) = dHdf(x,xf,y,yf,z,zf);
-=======
-% H(:,1:13) = zeros(3,13);
-H(:,1:13) = dHdX(q1,q2,q3,q4,x,xf,y,yf,z,zf);
-% H(:,fpos:fpos+2) = zeros(3,3);
->>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 H(:,fpos:fpos+2) = dHdf(q1,q2,q3,q4,x,xf,y,yf,z,zf);
 
                                                    
