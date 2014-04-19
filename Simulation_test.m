@@ -1,14 +1,23 @@
+<<<<<<< HEAD
 function [pos_error_slam,quat_error_slam, pos_error_base, quat_error_base, time] = Simulation_test(NUMBER_LOOPS,wp,lm)
 tic
+=======
+function [pos_error,quat_error] = Simulation_test(NUMBER_LOOPS,wp,lm)
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 INIT_FILE;
 QE= Q; RE= R; if SWITCH_INFLATE_NOISE, QE= 2*Q; RE= 8*R; end % inflate estimated noises (ie, add stabilising noise)
 full_way = 0;
 ftag = 1:length(lm);
+<<<<<<< HEAD
 quat_error_slam = [];
 pos_error_slam = [];
 quat_error_base = [];
 pos_error_base = [];
 time = [];
+=======
+quat_error = [];
+pos_error = [];
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 i=0;
 plot3(wp(1,:),wp(2,:),wp(3,:), '-*g','MarkerSize',10)
 xlim([-150 150]), ylim([-150 150]), zlim([0 100]);
@@ -23,8 +32,11 @@ h.pdnc = plot3(0,0,0,'m');
 h.vis = plot3(0,0,0,'*b','MarkerSize',10);
 % h.vis_m_pos = plot3(0,0,0,'*m','MarkerSize',10);
 [xsb,ysb,zsb] = sphere(20);
+<<<<<<< HEAD
 fe=[];
 z=[];
+=======
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 sphere_mass=[];
 t = 0:0.2:1;
 [Xc,Yc,Zc]=cylinder(t);
@@ -64,7 +76,11 @@ while iwp ~= 0
     
     % EKF predict step    
      [x,P]= predict (x,P, Vn,Wn,Q,dt);
+<<<<<<< HEAD
      [xnc,Pnc]= predict (xnc,Pnc, Vn,Wn,Q,dt);
+=======
+%     [xnc,Pnc]= predict (xnc,Pnc, Vn,Wn,Q,dt);
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
     
     
 
@@ -107,10 +123,16 @@ while iwp ~= 0
     set(h.xt, 'xdata', xt(1,:), 'ydata', xt(2,:), 'zdata', xt(3,:));   
     set(h.pd, 'xdata', pd(1,:), 'ydata', pd(2,:), 'zdata', pd(3,:)); 
     set(h.pdnc, 'xdata', pdnc(1,:), 'ydata', pdnc(2,:), 'zdata', pdnc(3,:)); 
+<<<<<<< HEAD
     if size(fe)>0
         set(h.vis, 'xdata', fe(1,:), 'ydata', fe(2,:), 'zdata', fe(3,:));    
         fe=[];
     end
+=======
+%     if size(idf_v)>0
+%         set(h.vis, 'xdata', lm(1,idf_v(:)), 'ydata', lm(2,idf_v(:)), 'zdata', lm(3,idf_v(:)));    
+%     end        
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
     set(h.vis, 'xdata', x(14:3:end), 'ydata', x(15:3:end), 'zdata', x(16:3:end));
     sphere_mass = add_sphere (x,P,sphere_mass,xsb,ysb,zsb);
     sphere_refresh(x,P,sphere_mass,xsb,ysb,zsb);   
@@ -125,11 +147,16 @@ while iwp ~= 0
     Zcyl = reshape(XYZ(:,3),6,21);
     set(h.veh_cyl,'xdata', Xcyl+xt(1,end), 'ydata', Ycyl+xt(2,end), 'zdata', Zcyl+xt(3,end));
     drawnow
+<<<<<<< HEAD
     quat_error_slam(:,i) = [xtrue(4)-x(4),xtrue(5)-x(5),xtrue(6)-x(6),xtrue(7)-x(7)];
     pos_error_slam(:,i) = [xtrue(1)-x(1),xtrue(2)-x(2),xtrue(3)-x(3)];
     quat_error_base(:,i) = [xtrue(4)-xnc(4),xtrue(5)-xnc(5),xtrue(6)-xnc(6),xtrue(7)-xnc(7)];
     pos_error_base(:,i) = [xtrue(1)-xnc(1),xtrue(2)-xnc(2),xtrue(3)-xnc(3)];
     time(i)=toc;
+=======
+    quat_error(:,i) = [xtrue(4)-x(4),xtrue(5)-x(5),xtrue(6)-x(6),xtrue(7)-x(7)];
+    pos_error(:,i) = [xtrue(1)-x(1),xtrue(2)-x(2),xtrue(3)-x(3)];
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
     Z = x;
 end
 

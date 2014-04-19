@@ -32,7 +32,11 @@ P = angle(2);
 
 % incremental tests for bounding semi-circle
 ii= find(abs(dx) < rmax & abs(dy) < rmax & abs(dz) < rmax ... % bounding cube
+<<<<<<< HEAD
         & abs(T- atan2(dy,dx)) < pi ...     % bounding azimuth          
+=======
+        & abs(T- atan2(dy,dx)) < pi/3 ...     % bounding azimuth          
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
         & (dx.^2 + dy.^2 + dz.^2) < rmax^2);           % bounding sphere
   
 
@@ -56,7 +60,10 @@ Rho = sqrt(dx.^2 + dy.^2 + dz.^2);
 DCM = quat2dcm_cc([x(4) x(5) x(6) x(7)]);
 z=zeros(3,size(lm,2));
 for i =1:size(lm,2)
+<<<<<<< HEAD
 % cfc =  [dx(i);dy(i);dz(i)];
+=======
+>>>>>>> f8cd4fdc6d1a4ebcb15e715b29fb232ef7ac911a
 cfc =  DCM*[dx(i);dy(i);dz(i)];
 z(:,i)= [pi_to_pi(atan2(cfc(2),cfc(1)));
             pi_to_pi(atan2(cfc(3),sqrt(cfc(1)^2+cfc(2)^2)));
