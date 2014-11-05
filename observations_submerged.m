@@ -32,7 +32,7 @@ P = angle(2);
 
 % incremental tests for bounding semi-circle
 ii= find(abs(dx) < rmax & abs(dy) < rmax & abs(dz) < rmax ... % bounding cube
-        & abs(T- atan2(dy,dx)) < pi ...     % bounding azimuth          
+        & abs(T- atan2(dy,dx)) < pi/2 ...     % bounding azimuth          
         & (dx.^2 + dy.^2 + dz.^2) < rmax^2);           % bounding sphere
   
 

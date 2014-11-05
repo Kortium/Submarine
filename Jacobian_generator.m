@@ -19,7 +19,7 @@ I = eye(4);
 F(1:3) = [x+v1*dT;y+v2*dT;z+v3*dT];
 F(4:7) = mrotate_eml([q1,q2,q3,q4], [w1,w2,w3],dT);
 F(4:7) = quatnormalize_eml([F(4),F(5),F(6),F(7)]);
-F(8:13) = [v1;v2;v3;w1;w2;w3];
+F(8:13) = [0;0;0;0;0;0];
 dFdX = jacobian(F,[x y z q1 q2 q3 q4 v1 v2 v3 w1 w2 w3]);
 matlabFunction(dFdX, 'file', 'dFdX.m');
 
