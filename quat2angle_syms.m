@@ -13,8 +13,8 @@ c32 = 2*(qin(3)*qin(4) + qin(1)*qin(2));
 c33 = qin(1)^2 - qin(2)^2 - qin(3)^2 + qin(4)^2;
 
 %Angles from DCM
-r1 = atan(c21,c11);
+r1 = atan2(c21,c11);
 r2 = asin(-c31);
-r3 = atan(c32,c33);
+r3 = atan2(c32,c33);
 
 end
